@@ -15,11 +15,13 @@ class App extends React.Component {
     chainId: '',
     isModalopen: false,
     ethToUsd: 0,
+    isLoggedIn: false,
   };
 
   async componentDidMount() {
     try {
       document.title = 'Lottery Hive DApp';
+
       await this.loadData();
 
       const response = await axios.get(
@@ -27,10 +29,20 @@ class App extends React.Component {
       );
       this.setState({ ethToUsd: response.data.USD });
 
-      await ethereum.request({
-        method: 'eth_requestAccounts',
-      });
+      if (window.ethereum) {
+        if (window.ethereum.selectedAddress) {
+          this.setState({ isLoggedIn: true });
+        } else {
+          this.setState({ isLoggedIn: false });
+        }
+      } else {
+        alert(
+          '🦊 You must install Metamask into your browser: https://metamask.io/download.html'
+        );
+      }
+
       window.ethereum.on('accountsChanged', async function (accounts) {
+        console.log(accounts.length);
         // Time to reload your interface with accounts[0]!
         location.reload();
       });
@@ -95,6 +107,7 @@ class App extends React.Component {
 
   handlerPickWinner = async () => {
     try {
+      this.setState({ isLoading: true });
       const accounts = await web3.eth.getAccounts();
       await lottery.methods.pickWinner().send({
         from: accounts[0],
@@ -107,6 +120,12 @@ class App extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
+  };
+
+  handlerLogin = async () => {
+    await ethereum.request({
+      method: 'eth_requestAccounts',
+    });
   };
 
   render() {
@@ -157,11 +176,21 @@ class App extends React.Component {
           {!this.state.isLoading && (
             <>
               <button
-                onClick={() => this.setState({ isModalopen: true })}
+                onClick={() => {
+                  if (this.state.isLoggedIn) {
+                    this.setState({ isModalopen: true });
+                  } else {
+                    this.handlerLogin();
+                  }
+                }}
                 className=" bg-purple-900 text-white font-bold px-10 py-3 mt-8 rounded-full cursor-pointer transition-all duration-100 hover:px-12 hover:py-5 hover:text-lg"
                 disabled={this.state.isLoading}
               >
-                {this.state.isLoading ? 'Loading...' : 'Join'}
+                {this.state.isLoading
+                  ? 'Loading...'
+                  : this.state.isLoggedIn
+                  ? 'Join'
+                  : 'Connect'}
               </button>
 
               {this.state.manager === this.state.currentAccount &&
