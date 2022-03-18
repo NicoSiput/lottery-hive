@@ -5,10 +5,49 @@
 @tailwind utilities;
 
 main {
-  min-height: 100vh;
-  padding-top: 80px;
+  min-height: calc(100vh - 68px);
+  background-color: #ffb72b;
 }
 
 .bg-bee-main {
-  background-color: #ffb72b;
+  background-color: #27262c;
+}
+
+.font-amount-prize {
+  font-size: 62px;
+  color: #58359e;
+  font-weight: 800;
+}
+
+.prize {
+  min-height: 500px;
+}
+
+.prize p {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.image-hive {
+  top: 14rem;
+  left: 50%;
+  transform: translateX(-120%);
+}
+
+.loading {
+  width: 100px;
+  height: 50px;
+  cursor: progress;
+  border-radius: 6%;
+  background: linear-gradient(0.25turn, transparent, #fff, transparent),
+    linear-gradient(#eee, #eee),
+    radial-gradient(38px circle at 19px 19px, #eee 50%, transparent 51%),
+    linear-gradient(#eee, #eee);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  to {
+    background-position: 315px 0, 0 0, 0 190px, 50px 195px;
+  }
 }

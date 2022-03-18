@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import lottery from 'contracts/lottery';
 import web3 from 'contracts/web3';
-
+import JoinLotteryModal from 'components/modal/JoinLotteryModal';
+import axios from 'axios';
 class App extends React.Component {
   state = {
     manager: '',
@@ -12,17 +13,25 @@ class App extends React.Component {
     isLoading: false,
     currentAccount: '',
     chainId: '',
+    isModalopen: false,
+    ethToUsd: 0,
   };
 
   async componentDidMount() {
     try {
       await this.loadData();
+
+      const response = await axios.get(
+        'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD'
+      );
+      this.setState({ ethToUsd: response.data.USD });
+
       window.ethereum.on('accountsChanged', async function (accounts) {
         // Time to reload your interface with accounts[0]!
         location.reload();
       });
 
-      ethereum.on('chainChanged', (chainId) => {
+      window.ethereum.on('chainChanged', (chainId) => {
         console.log(chainId);
         location.reload();
       });
@@ -55,19 +64,15 @@ class App extends React.Component {
     });
   };
 
-  handlerEnterLottery = async (event) => {
+  handlerEnterLottery = async (value) => {
     try {
-      this.setState({ isLoading: true });
       const accounts = await web3.eth.getAccounts();
-
-      this.setState({ message: 'Waiting on transaction success...' });
-
       await lottery.methods.enter().send({
         from: accounts[0],
-        value: web3.utils.toWei(this.state.value, 'ether'),
+        value: web3.utils.toWei(value, 'ether'),
       });
 
-      this.setState({ message: 'You have been entered!' });
+      this.setState({ message: 'You have been joined' });
       await this.loadData();
     } catch (error) {
       this.setState({ message: error.message });
@@ -79,14 +84,11 @@ class App extends React.Component {
 
   handlerPickWinner = async () => {
     try {
-      this.setState({ isLoading: true });
       const accounts = await web3.eth.getAccounts();
-
-      this.setState({ message: 'Waiting on transaction success...' });
       await lottery.methods.pickWinner().send({
         from: accounts[0],
       });
-      this.setState({ message: 'A winner has been picked!' });
+      this.setState({ message: 'A winner has been picked' });
 
       await this.loadData();
     } catch (error) {
@@ -98,93 +100,81 @@ class App extends React.Component {
 
   render() {
     return (
-      <main>
-        {this.state.message !== '' && (
-          <div className="bg-white border rounded-md shadow-md mb-5 container p-3 text-center">
-            {this.state.message}
-          </div>
-        )}
+      <main className="relative">
+        <div className="absolute image-hive">
+          <img
+            className="animate-pulse"
+            src="/images/honey-bee.png"
+            alt="honey"
+            width={'50%'}
+          />
+        </div>
+        <div className="absolute top-0 right-0">
+          <img
+            src="/images/bee.png"
+            alt="honey"
+            width={'50%'}
+            className="animate-bounce"
+          />
+        </div>
 
-        <div className="bg-orange-200 py-5 px-3 container rounded-md">
-          <div className="container grid grid-cols-3 gap-x-4">
-            <div className=" bg-white rounded mt-3 p-3">
-              <h2 className="border-b-2 text-gray-300">Contract Owner</h2>
-              <p className="text-gray-500 font-medium mt-2 text-ellipsis overflow-hidden">
-                {this.state.isLoading ? 'loading...' : this.state.manager}
-              </p>
-            </div>
-            <div className=" bg-white rounded mt-3 p-3">
-              <h2 className="border-b-2 text-gray-300">Players</h2>
-              <p className="text-gray-500 font-medium mt-2 text-ellipsis overflow-hidden">
-                {this.state.isLoading
-                  ? 'loading...'
-                  : `${this.state.players.length} people`}
-              </p>
-            </div>
-            <div className=" bg-white rounded mt-3 p-3">
-              <h2 className="border-b-2 text-gray-300">
-                Available ether for competing
-              </h2>
-              <p className="text-gray-500 font-medium mt-2 text-ellipsis overflow-hidden">
-                {this.state.isLoading
-                  ? 'loading...'
-                  : `${web3.utils.fromWei(this.state.balance, 'ether')} ETH`}
-              </p>
-            </div>
-          </div>
-
-          <div className="container bg-white mt-5 p-3 rounded shadow-md">
-            <h2 className="text-base">Let's try your luck!</h2>
-            <div className="mt-3">
-              <div className="flex">
-                <span className="text-sm  border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">
-                  ETH
-                </span>
-                <input
-                  type="number"
-                  id="search"
-                  className="border border-gray-300  text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 "
-                  placeholder="Enter amount of ETH"
-                  onChange={(event) =>
-                    this.setState({ value: event.target.value })
-                  }
-                />
-              </div>
-              <p className="text-red-200 text-xs font-bold">
-                NOTE: Minimum 0.01 eth for join the lottery
-              </p>
-
-              <button
-                onClick={this.handlerEnterLottery}
-                className="px-8 py-2 border rounded-md text-sm mt-3 hover:bg-orange-400 hover:text-white transition-all duration-300"
-                disabled={this.state.isLoading}
-              >
-                {this.state.isLoading ? 'Please wait...' : 'Have a try'}
-              </button>
-            </div>
-          </div>
-
-          {this.state.manager === this.state.currentAccount ? (
-            <div className="container bg-white mt-5 p-3 rounded shadow-md">
-              <h2 className="text-base">Let's pick a winner!</h2>
-              <div className="mt-3">
-                <button
-                  onClick={this.handlerPickWinner}
-                  className="w-full px-8 py-2 border rounded-md text-sm bg-orange-400 hover:bg-orange-500 text-white transition-all duration-300 "
-                  disabled={this.state.isLoading}
-                >
-                  {this.state.isLoading ? 'Please wait...' : 'Spin the wheel!'}
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="container bg-white mt-5 p-3 rounded shadow-md">
-              <h2 className="text-base">
-                The owner will start random pick later
-              </h2>
+        <div className="prize text-center flex flex-col items-center justify-center z-10">
+          {/* NOTE message alert */}
+          {this.state.message && (
+            <div className="flex bg-modal-header items-center text-white p-3 rounded-lg mb-5 w-1/2">
+              <img src="/images/icon-checklist.png" alt="check" width={55} />
+              {this.state.message}
             </div>
           )}
+
+          <h2 className="font-bold text-white text-lg">The Lottery Hive</h2>
+
+          {this.state.isLoading ? (
+            <div className="loading"></div>
+          ) : (
+            <h3 className="font-amount-prize mt-3">
+              ${' '}
+              {(
+                this.state.ethToUsd *
+                web3.utils.fromWei(this.state.balance, 'ether')
+              ).toFixed(2)}
+            </h3>
+          )}
+
+          <p className="text-white ">in prizes!</p>
+
+          {!this.state.isLoading && (
+            <>
+              <button
+                onClick={() => this.setState({ isModalopen: true })}
+                className=" bg-purple-900 text-white font-bold px-10 py-3 mt-8 rounded-full cursor-pointer transition-all duration-100 hover:px-12 hover:py-5 hover:text-lg"
+                disabled={this.state.isLoading}
+              >
+                {this.state.isLoading ? 'Loading...' : 'Join'}
+              </button>
+
+              {this.state.manager === this.state.currentAccount &&
+                this.state.balance > 0 && (
+                  <button
+                    onClick={this.handlerPickWinner}
+                    className=" bg-white text-black hover:bg-purple-900 hover:text-white font-bold px-10 py-3 mt-8 rounded-full cursor-pointer transition-all duration-100 w-2/5 mx-auto"
+                    disabled={this.state.isLoading}
+                  >
+                    {this.state.isLoading ? 'Loading...' : 'Draw the lottery'}
+                  </button>
+                )}
+            </>
+          )}
         </div>
+        <JoinLotteryModal
+          isOpen={this.state.isModalopen}
+          shouldCloseOnOverlayClick={true}
+          onRequestClose={() => this.setState({ isModalopen: false })}
+          data={{
+            players: this.state.players,
+          }}
+          onSubmit={this.handlerEnterLottery}
+        />
       </main>
     );
   }

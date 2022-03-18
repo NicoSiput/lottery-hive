@@ -6,6 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        modal: {
+          header: '#3a384d',
+          body: '#27262c',
+          text: '#a69cbe',
+        },
         black: '#202020',
         'footer-black': '#090909',
         blue: {
@@ -18,6 +23,12 @@ module.exports = {
         },
         red: {
           200: '#FF0B09',
+        },
+        purple: {
+          900: '#58359e',
+        },
+        cyan: {
+          200: '#1fc7d4',
         },
       },
     },
