@@ -19,6 +19,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     try {
+      document.title = 'Lottery Hive DApp';
       await this.loadData();
 
       const response = await axios.get(
