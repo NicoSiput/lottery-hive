@@ -27,6 +27,9 @@ class App extends React.Component {
       );
       this.setState({ ethToUsd: response.data.USD });
 
+      await ethereum.request({
+        method: 'eth_requestAccounts',
+      });
       window.ethereum.on('accountsChanged', async function (accounts) {
         // Time to reload your interface with accounts[0]!
         location.reload();
