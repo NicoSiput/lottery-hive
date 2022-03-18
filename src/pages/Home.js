@@ -52,6 +52,10 @@ class App extends React.Component {
 
     const manager = await lottery.methods.manager().call();
     const players = await lottery.methods.getPlayers().call();
+    const lastWinner = await lottery.methods.lastWinner().call();
+    let lastPayout = await lottery.methods.lastPayout().call();
+
+    lastPayout = web3.utils.fromWei(lastPayout, 'ether');
     const balance = await web3.eth.getBalance(lottery.options.address);
     const [currentAccount] = await web3.eth.getAccounts();
 
@@ -62,11 +66,14 @@ class App extends React.Component {
       isLoading: false,
       currentAccount,
       chainId,
+      lastWinner,
+      lastPayout,
     });
   };
 
   handlerEnterLottery = async (value) => {
     try {
+      this.setState({ isLoading: true });
       const accounts = await web3.eth.getAccounts();
       await lottery.methods.enter().send({
         from: accounts[0],
@@ -133,7 +140,7 @@ class App extends React.Component {
           {this.state.isLoading ? (
             <div className="loading"></div>
           ) : (
-            <h3 className="font-amount-prize mt-3">
+            <h3 className="font-amount-prize mt-3 text-purple-900">
               ${' '}
               {(
                 this.state.ethToUsd *
@@ -166,6 +173,32 @@ class App extends React.Component {
                 )}
             </>
           )}
+        </div>
+        <div className="container">
+          <div className="w-full">
+            <div className="flex items-center justify-between rounded-t-lg bg-modal-header font-bold text-sm text-white border-b p-5">
+              <h3 className="text-lg uppercase">Last Royal Jelly Queen</h3>
+            </div>
+
+            <div className="rounded-b-lg font-normal bg-modal-body text-white text-sm p-6">
+              <div className="container text-modal-text">
+                {this.state.isLoading ? (
+                  <div className="loading"></div>
+                ) : (
+                  <>
+                    <h3 className="mb-3 inline-block bg-white rounded-lg p-1 w-auto">
+                      {this.state.lastWinner}
+                    </h3>
+                    <h3 className="font-amount-prize mt-5 text-purple-900">
+                      ${' '}
+                      {(this.state.ethToUsd * this.state.lastPayout).toFixed(2)}
+                      <span className="text-base text-white">in payout</span>
+                    </h3>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
         <JoinLotteryModal
           isOpen={this.state.isModalopen}
