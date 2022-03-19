@@ -8,7 +8,7 @@ Lottery Hive is a simple DApp for playing lottery. Our Smart Contract deployed a
 
 ## How It Works
 
-First, make sure your browswer have been installed [MetaMask] (https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn) and switch the network to Goerli Testnet.
+First, make sure your browswer have been installed [MetaMask](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn) and switch the network to Goerli Testnet.
 Each user can join to our Smart Contract by enter a value of ETH (minimum 0.01 ETH).
 After the participant reaches the target, the owner of contract will drawing a lottery by manually.
 
@@ -31,8 +31,9 @@ First, install, build and start the project:
 
 ```bash
 npm install
+npm install -g serve
 npm run build
-npm run start
+serve -s build
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the Lottery Hive DApp.
