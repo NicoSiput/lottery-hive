@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -49,4 +49,41 @@ main {
   to {
     background-position: 315px 0, 0 0, 0 190px, 50px 195px;
   }
+}
+
+.text-bee-main {
+  color: #ffb72b;
+}
+
+.text-bee-black {
+  color: #27262c;
+}
+
+.bg-bee-secondary {
+  background-color: #fdffa9;
+}
+
+.bg-bee-honey {
+  background-color: #ffb72b;
+}
+
+.table {
+  border-spacing: 0 15px;
+}
+
+i {
+  font-size: 1rem !important;
+}
+
+.table tr {
+  border-radius: 20px;
+}
+
+tr td,
+tr th {
+  border-radius: 0.625rem;
+}
+
+.border-bee {
+  border-radius: 0.625rem;
 }
