@@ -26,7 +26,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     try {
-      document.title = 'Lottery Hive DApp';
+      document.title = 'Lottery Hive';
 
       await this.loadData();
 
