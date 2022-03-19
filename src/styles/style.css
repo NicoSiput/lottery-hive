@@ -87,3 +87,13 @@ tr th {
 .border-bee {
   border-radius: 0.625rem;
 }
+
+.button-offer-submit {
+  background-color: #ffb72b;
+  color: rgb(255, 255, 255);
+}
+
+.button-offer-submit:hover {
+  background-color: #27262c;
+  color: #ffb72b;
+}

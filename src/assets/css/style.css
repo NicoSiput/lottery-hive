@@ -492,9 +492,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-5{
   margin-top: 1.25rem;
 }
-.mt-6{
-  margin-top: 1.5rem;
-}
 .mt-1{
   margin-top: 0.25rem;
 }
@@ -515,6 +512,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .grid{
   display: grid;
+}
+.hidden{
+  display: none;
 }
 .w-1\/2{
   width: 50%;
@@ -653,9 +653,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .p-6{
   padding: 1.5rem;
 }
-.p-1{
-  padding: 0.25rem;
-}
 .p-10{
   padding: 2.5rem;
 }
@@ -747,6 +744,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-modal-text{
   --tw-text-opacity: 1;
   color: rgb(166 156 190 / var(--tw-text-opacity));
+}
+.text-red-500{
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 .shadow-lg{
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -855,6 +856,16 @@ tr th {
 
 .border-bee {
   border-radius: 0.625rem;
+}
+
+.button-offer-submit {
+  background-color: #ffb72b;
+  color: rgb(255, 255, 255);
+}
+
+.button-offer-submit:hover {
+  background-color: #27262c;
+  color: #ffb72b;
 }
 
 .hover\:bg-purple-900:hover{
