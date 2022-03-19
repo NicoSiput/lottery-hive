@@ -156,14 +156,14 @@ class App extends React.Component {
         <div className="absolute image-hive">
           <img
             className="animate-pulse"
-            src="/images/honey-bee.png"
+            src="images/honey-bee.png"
             alt="honey"
             width={'50%'}
           />
         </div>
         <div className="absolute top-0 right-0">
           <img
-            src="/images/bee.png"
+            src="images/bee.png"
             alt="honey"
             width={'50%'}
             className="animate-bounce"
@@ -174,7 +174,7 @@ class App extends React.Component {
           {/* NOTE message alert */}
           {this.state.message && (
             <div className="flex bg-modal-header items-center text-white p-3 rounded-lg mb-5 w-1/2">
-              <img src="/images/icon-checklist.png" alt="check" width={55} />
+              <img src="images/icon-checklist.png" alt="check" width={55} />
               {this.state.message}
             </div>
           )}
