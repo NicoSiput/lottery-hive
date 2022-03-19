@@ -98,7 +98,7 @@ export default function JoinLotteryModal({
               <h3 className="text-sm text-white">Estimated USD</h3>
               <h4 className="text-2xl mt-3 text-white font-bold">$ {estimateUSD.toFixed(2)}</h4>
               <p className="text-white text-xs mt-1">
-                *) Draw will notice on our Discord.
+                *) Bid frequently to grow your winning chance
               </p>
             </div>
 

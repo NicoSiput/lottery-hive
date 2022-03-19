@@ -204,7 +204,7 @@ class App extends React.Component {
             </>
           )}
 
-          <p className="text-white ">worth of Royal Jelly !</p>
+          <p className="text-white ">{this.state.isLoading ? 'Calculating nectar and pollens ..' : 'worth of Royal Jelly !'}</p>
 
           {!this.state.isLoading && (
             <>
@@ -233,7 +233,7 @@ class App extends React.Component {
                     className=" bg-white text-black hover:bg-purple-900 hover:text-white font-bold px-10 py-3 mt-8 rounded-full cursor-pointer transition-all duration-100 w-2/5 mx-auto"
                     disabled={this.state.isLoading}
                   >
-                    {this.state.isLoading ? 'Loading...' : 'Draw the lottery'}
+                    {this.state.isLoading ? 'Loading...' : 'Pick the Next Queen Bee'}
                   </button>
                 )}
 
