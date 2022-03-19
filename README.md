@@ -23,6 +23,10 @@ The winner of the Prizes will randomly picked on every 10th of every month by th
 
 We also charge 2.5% of fee from the winner prize.
 
+## Demonstration Video
+
+https://youtu.be/0spgRaVhrBM
+
 ## Team Members
 
 - hnihsan - [GitHub](https://github.com/hnihsan) - [Gitcoin](https://gitcoin.co/hnihsan) - Email: [helmi.n.ihsan@gmail.com](mailto:helmi.n.ihsan@gmail.com) - Discord: [hnihsan#8820](https://discordapp.com/users/513001948098723864)
