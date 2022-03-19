@@ -10,8 +10,10 @@ Deployed Contract Address : [0x6a28Cf007A1238f2024e43b12B703Eb89d5C2201](https:/
 
 ## Live Demo
 
-Lottery Hive has been deployed on SWARM and linked to an ENS.
-https://google.com
+Lottery Hive has been deployed on SWARM and linked to an ENS. You can access Deployed Live Demo here
+https://lotteryhive.bzz.link/
+or
+https://api.gateway.ethswarm.org/bzz/lotteryhive.eth/
 
 ## How It Works
 
