@@ -4,15 +4,22 @@ In Participation for We Are Millions Hackathon, a submission for [Best Decentral
 
 ## Descriptions
 
-Lottery Hive is a simple DApp for playing lottery. Our Smart Contract deployed at Goerli Testnet Network.
+Lottery Hive is a simple DApp for playing lottery. Our Smart Contract has been deployed at Goerli Test Network.
+
+Deployed Contract Address : [0x6a28Cf007A1238f2024e43b12B703Eb89d5C2201](https://goerli.etherscan.io/address/0x6a28Cf007A1238f2024e43b12B703Eb89d5C2201)
+
+## Live Demo
+
+Lottery Hive has been deployed on SWARM and linked to an ENS.
+https://google.com
 
 ## How It Works
 
-First, make sure your browswer have been installed [MetaMask](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn) and switch the network to Goerli Testnet.
-Each user can join to our Smart Contract by enter a value of ETH (minimum 0.01 ETH).
-After the participant reaches the target, the owner of contract will drawing a lottery by manually.
+First, make sure your browser have [MetaMask](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn) installed as an extension and switch the network to Goerli Test Network.
+Any user can connect their Metamask to Lottery Hive then join the Prize Pool of minimum 0.01 ETH.
+The winner of the Prizes will randomly picked on every 10th of every month by the owner of the contract manually. The Prizes then will be send to the respective winner.
 
-We pick a winner by random. The winner will win the prize - tax (2.5%)
+We also charge 2.5% of fee from the winner prize.
 
 ## Team Members
 
