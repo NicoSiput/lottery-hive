@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import lottery from 'contracts/lottery';
 import web3 from 'contracts/web3';
 import JoinLotteryModal from 'components/modal/JoinLotteryModal';
+import WrongNetworkWarning from 'components/modal/WrongNetworkWarning';
+import NetworkNotIdentified from 'components/modal/NetworkNotIdentified';
 import axios from 'axios';
+
 class App extends React.Component {
   state = {
     manager: '',
@@ -17,6 +20,8 @@ class App extends React.Component {
     isModalopen: false,
     ethToUsd: 0,
     isLoggedIn: false,
+    networkWarning: false,
+    networkNotFound: false
   };
 
   async componentDidMount() {
@@ -49,8 +54,9 @@ class App extends React.Component {
       });
 
       window.ethereum.on('chainChanged', (chainId) => {
-        console.log(chainId);
-        location.reload();
+        console.log("network changed to : " + chainId);
+        localStorage.setItem("chainID", chainId);
+        location.reload(true);
       });
     } catch (error) {
       console.log(error);
@@ -64,27 +70,42 @@ class App extends React.Component {
   loadData = async () => {
     this.setState({ isLoading: true });
 
-    const chainId = await web3.currentProvider.chainId;
+    let chainId = await web3.currentProvider.chainId;
+    let networkNotFound = false;
 
-    const manager = await lottery.methods.manager().call();
-    const players = await lottery.methods.getPlayers().call();
-    const lastWinner = await lottery.methods.lastWinner().call();
-    let lastPayout = await lottery.methods.lastPayout().call();
-    let uniquePlayers = players.filter((value, index, self) => { return self.indexOf(value) === index})
-    lastPayout = web3.utils.fromWei(lastPayout, 'ether');
-    const balance = await web3.eth.getBalance(lottery.options.address);
-    const [currentAccount] = await web3.eth.getAccounts();
-    this.setState({
-      manager,
-      players,
-      balance,
-      isLoading: false,
-      currentAccount,
-      chainId,
-      lastWinner,
-      lastPayout,
-      uniquePlayers
-    });
+    if(chainId !== null) {
+      localStorage.setItem("chainID", chainId);
+    } else {
+      chainId = localStorage.getItem("chainID");
+      if (chainId === null) { networkNotFound = true; }
+    }
+
+    const networkWarning = chainId !== '0x5';
+
+    if (networkWarning) {
+      this.setState({ networkWarning, networkNotFound });
+    } else {
+      const manager = await lottery.methods.manager().call();
+      const players = await lottery.methods.getPlayers().call();
+      const lastWinner = await lottery.methods.lastWinner().call();
+      let lastPayout = await lottery.methods.lastPayout().call();
+      let uniquePlayers = players.filter((value, index, self) => { return self.indexOf(value) === index})
+      lastPayout = web3.utils.fromWei(lastPayout, 'ether');
+      const balance = await web3.eth.getBalance(lottery.options.address);
+      const [currentAccount] = await web3.eth.getAccounts();
+      this.setState({
+        manager,
+        players,
+        balance,
+        isLoading: false,
+        currentAccount,
+        chainId,
+        lastWinner,
+        lastPayout,
+        uniquePlayers,
+        networkWarning
+      });
+    }
   };
 
   handlerEnterLottery = async (value) => {
@@ -166,7 +187,6 @@ class App extends React.Component {
           ) : (
             <>
               <div className='subtitle text-center'>
-
                 <span className='font-bold text-3xl text-purple-900'>{this.state.players.length} Worker Bees,</span>
                 <br/>
                 <span className='font-bold text-white text-lg'>Have presented their offering for the next</span>
@@ -216,6 +236,15 @@ class App extends React.Component {
                     {this.state.isLoading ? 'Loading...' : 'Draw the lottery'}
                   </button>
                 )}
+
+                {this.state.manager !== this.state.currentAccount &&
+                  <div className='subtitle text-center py-6'>
+                    <span className='font-bold text-lg text-purple-900'>The Next Queen Bee</span>
+                    <span className='font-bold text-white text-lg'>&nbsp;will be selected on every 10th of every month!</span>
+                    <br/>
+                    <span className='font-bold text-white text-base'>Stay tune and join our Discord for other announcements!</span>
+                  </div>
+                }
             </>
           )}
         </div>
@@ -300,6 +329,14 @@ class App extends React.Component {
             players: this.state.players,
           }}
           onSubmit={this.handlerEnterLottery}
+        />
+        <WrongNetworkWarning
+          isOpen={!this.state.networkNotFound && this.state.networkWarning}
+          shouldCloseOnOverlayClick={false}
+        />
+        <NetworkNotIdentified
+          isOpen={this.state.networkNotFound}
+          shouldCloseOnOverlayClick={false}
         />
       </main>
     );

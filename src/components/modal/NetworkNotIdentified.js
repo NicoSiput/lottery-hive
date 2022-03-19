@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BaseModal from './BaseModal';
 import axios from 'axios';
 
-export default function WrongNetworkWarning({
+export default function NetworkNotIdentified({
   isOpen,
   shouldCloseOnOverlayClick
 }) {
@@ -21,11 +21,9 @@ export default function WrongNetworkWarning({
         {/* NOTE body modal */}
         <div className="rounded-b-lg font-normal bg-bee-secondary text-white text-sm p-10">
           <div className="container text-center">
-            <span className='font-bold text-bee-black text-xl'>This Network is not supported !</span>
+            <span className='font-bold text-bee-black text-xl'>Network not Identified !</span>
             <br/>
-            <span className='font-bold text-bee-black text-lg'>Please change to :</span>
-            <br/>
-            <span className='font-bold text-3xl text-purple-900 animate-pulse'>Goerli Test Network</span>
+            <span className='font-bold text-3xl text-purple-900 animate-pulse'>Hard refresh the Page</span>
           </div>
         </div>
       </div>

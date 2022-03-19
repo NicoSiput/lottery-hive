@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BaseModal from './BaseModal';
 import axios from 'axios';
 
-export default function ConfirmQtyModal({
+export default function JoinLotteryModal({
   isOpen,
   shouldCloseOnOverlayClick,
   data,
