@@ -1,6 +1,6 @@
 # Lottery Hive
 
-In Participation for We Are Millions Hackathon, a submission for [Best Decentralised Frontend On Bzz.Link](https://gitcoin.co/issue/fairdatasociety/wam/17/100027841)
+In Participation for L2 Rollathon: a Virtual Hackathon, a submission for [Integrating UNS “Login With Unstoppable”](https://gitcoin.co/issue/unstoppabledomains/gitcoin-bounties/5/100028808)
 
 ## Descriptions
 
